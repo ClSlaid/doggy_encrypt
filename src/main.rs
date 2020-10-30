@@ -52,7 +52,7 @@ fn main() {
         }
     }
 
-    println!("{}", outcome);
+    print!("{}", outcome);
 }
 
 fn tutorial(){

@@ -50,14 +50,20 @@ impl Rule {
         let mut outcome = String::new();
 
         let rg = Regex::new("^犬曰：").unwrap();
-        if !rg.is_match(outcome.as_str()) {
+        if rg.is_match(encoded.as_str()) == false {
             eprintln!("🐕️：我说的？\n需要以“犬曰：”开头。")
         }
 
+        let encoded = String::from(rg.replace(encoded.as_str(),""))
+            .replace("\n","");
+
         for ch in encoded.chars() {
-            outcome.push(*self.dict.get(&ch).unwrap_or_else(|| {
+            outcome.push(
+                *self.dict.get(&ch)
+                .unwrap_or_else(|| {
                 eprintln!(
-                    "在从已编码数据转换成 base64 时出错。\n建议检查是否有不正确的字符。\n"
+                    "在从已编码数据转换成 base64 时出错。\n建议检查是否有不正确的字符:{}",
+                    ch as u32
                 );
                 process::exit(1);
             }));
@@ -94,74 +100,4 @@ fn check(dict: Vec<char>) {
     vc.dedup();
     assert_eq!(vc.len(), 65);
 }
-//fn cover(raw: String) -> String{
-//     ///Rend base64 encoded string
-//     ///simple replacements
-//     ///rules: replace fr[i] with to[i]
-//     ///fr -> collection of patterns to be replaced
-//     /// to -> collection of patterns to be replaced to
-//     let fr = Vec![];
-//     let to = Vec![];
-//     "犬曰：" + replace(raw, fr, to)
-// }
-//
-// fn uncover(rendered: String) -> String{
-//     /// Turn rendered text back to base64 encoded string
-//     /// simple replacements
-//     /// rules: replace to[i] with fr[i]
-//     /// fr -> collection of patterns replaced
-//     /// to -> collection of raw base64 pattern
-//
-//     let fr = Vec![];
-//     let to = Vec![];
-//     // check if begin with specific pattern.
-//     let rg = regex::Regex::new(r"^犬曰：").unwrap();
-//     if !rg.is_match(rendered.as_str()){
-//         eprintln!("🐕️：我没说过这话嗷\n需要以 \"犬曰：\" 开头");
-//         process::exit(1);
-//     }
-//
-//     let rendered = rg.replace(rendered.as_str(), "");
-//
-//     String::from(rendered)
-// }
-//
-// pub fn encrypt(plain: String) -> String{
-//     /// translate the plain text to doggy text.
-//     let enc_text = encode(plain);
-//
-//     cover(enc_text)
-//     // turn encrypted text to doggy text.
-// }
-//
-// pub fn decrypt(encrypted: String) -> String{
-//     /// translate doggy text to plain text
-//     let enc_text = uncover(encrypted);
-//     let plain_num = decode(enc_text).unwrap_or_else(|err|{
-//         eprintln!("Problem occurred while decoding:\n{}", err);
-//         process::exit(1);
-//     });
-//     let plain_text = String::from_utf8(plain_num).unwrap_or_else(|err|{
-//         eprintln!("Problem occurred while decoding:\n{}", err);
-//         process::exit(1);
-//     });
-//
-//     plain_text
-// }
-//
-// fn replace(raw: String, v_from: Vec<&str>, v_to: Vec<&str>) -> String{
-//     /// enforce the replace function of std::str
-//     /// making it possible to replace patterns by a single function.
-//     if v_from.len() != v_to.len() {
-//         eprintln!("Invalid Rule!");
-//         process::exit(1);
-//     }
-//
-//     let outcome = raw.clone();
-//
-//     for (fr, to) in zip(v_from.iter(),v_to.iter()){
-//         outcome.replace(fr, to);
-//     }
-//
-//     outcome
-// }
+
