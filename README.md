@@ -6,16 +6,16 @@ A simple CLI application that can casually encrypt(encode actually) or decrypt(o
 ## how to use?
 ### encrypt(or actually encode)
 ```bash
-doggy_encrypt encrypt <file to encrypt>
+doggy encrypt <file to encrypt>
 ```
 ⬆️️Doing so will straightly print encrypted text in your console.
 So I recommend⬇️️:
 ```bash
 touch output.txt
-doggy_encrypt encrypt <file to encrypt> > output.txt
+doggy encrypt <file to encrypt> > output.txt
 ```
 That will save all encrypted data in output.txt.
 ### decrypt(or actually decode)
 ```bash
-doggy_encrypt decrypt <file to decrypt>
+doggy decrypt <file to decrypt>
 ```

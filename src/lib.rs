@@ -42,7 +42,6 @@ impl Rule {
                 }),
             );
         }
-
         outcome
     }
 
